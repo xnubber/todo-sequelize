@@ -25,7 +25,7 @@ router.post('/register', (req, res) => {
   const { name, email, password, confirmPassword } = req.body
   User.findOne({ where: { email } }).then(user => {
     if (user) {
-      console.log('User already exists')
+      req.flash('warning_msg', 'User already exists!')
       return res.render('register', {
         name,
         email,
@@ -41,7 +41,10 @@ router.post('/register', (req, res) => {
         email,
         password: hash
       }))
-      .then(() => res.redirect('/'))
+      .then(() => {
+        req.flash('success_msg', 'Successfully Registered!')
+        res.redirect('/')
+      })
       .catch(err => console.log(err))
   })
 })
@@ -49,6 +52,7 @@ router.post('/register', (req, res) => {
 // logout
 router.get('/logout', (req, res) => {
   req.logout()
+  req.flash('success_msg', 'Successfully Logout!')
   res.redirect('/users/login')
 })
 

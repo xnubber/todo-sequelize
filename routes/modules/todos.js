@@ -14,7 +14,10 @@ router.post('/', (req, res) => {
   const UserId = req.user.id
   const name = req.body.name
   return Todo.create({name, UserId})
-    .then(() => res.redirect('/'))
+    .then(() => {
+      req.flash('success_msg', 'Successfully created todo!')
+      res.redirect('/')
+    })
     .catch(err => console.log(err))
 })
 
@@ -37,7 +40,10 @@ router.put('/:id', (req, res) => {
       todo.isDone = isDone === 'on'
       return todo.save()
     })
-    .then(() => res.redirect(`/todos/${id}`))
+    .then(() => {
+      req.flash('success_msg', 'Successfully updated todo!')
+      res.redirect(`/todos/${id}`)
+    })
     .catch(err => console.log(err))
 })
 
@@ -56,7 +62,10 @@ router.delete('/:id', (req, res) => {
   const id = req.params.id
   return Todo.findOne({where: {id, UserId}})
     .then(todo => todo.destroy())
-    .then(() => res.redirect('/'))
+    .then(() => {
+      req.flash('success_msg', 'Successfully deleted todo!')
+      res.redirect('/')
+    })
     .catch(err => console.log(err))
 })
 
