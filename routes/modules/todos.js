@@ -11,9 +11,11 @@ router.get('/new', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-  // const userId = req.user.id
-  console.log(req.user)
-  res.send(req.user)
+  const UserId = req.user.id
+  const name = req.body.name
+  return Todo.create({name, UserId})
+    .then(() => res.redirect('/'))
+    .catch(err => console.log(err))
 })
 
 
