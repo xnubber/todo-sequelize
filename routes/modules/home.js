@@ -7,7 +7,9 @@ const Todo = db.Todo
 
 // index
 router.get('/', (req, res) => {
+  const UserId = req.user.id
   return Todo.findAll({
+    where: {UserId},
     raw: true,
     nest: true
   })
