@@ -90,7 +90,8 @@ app.post('/users/register', (req, res) => {
 
 // logout
 app.get('/users/logout', (req, res) => {
-  res.render()
+  req.logout()
+  res.redirect('/users/login')
 })
 
 
