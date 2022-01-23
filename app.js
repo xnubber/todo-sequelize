@@ -19,7 +19,7 @@ app.use(methodOverride('_method'))
 
 
 
-
+// index
 app.get('/', (req, res) => {
   return Todo.findAll({
     raw: true,
@@ -29,6 +29,16 @@ app.get('/', (req, res) => {
     .catch((error) => { return res.status(422).json(error) })
 })
 
+// show
+app.get('/todos/:id', (req, res) => {
+  const id = req.params.id
+  return Todo.findByPk(id)
+    .then(todo => res.render('show', { todo: todo.toJSON() }))
+    .catch(error => console.log(error))
+})
+
+
+// login
 app.get('/users/login', (req, res) => {
   res.render('login')
 })
@@ -37,6 +47,7 @@ app.post('/users/login', (req, res) => {
   res.render()
 })
 
+// register
 app.get('/users/register', (req, res) => {
   res.render('register')
 })
@@ -47,6 +58,7 @@ app.post('/users/register', (req, res) => {
     .then(user => res.redirect('/'))
 })
 
+// logout
 app.get('/users/logout', (req, res) => {
   res.render()
 })
